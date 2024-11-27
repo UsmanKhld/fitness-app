@@ -9,6 +9,7 @@
 				"/EHsc",
 				"main.cpp",
 				"User.cpp",
+				"Trainer.cpp",
 				"/nologo",
 				"/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
 				"${file}"
