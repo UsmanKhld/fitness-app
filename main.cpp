@@ -60,8 +60,10 @@ bool login(const string& filename) {
         ss >> storedAge;
 
         if (storedEmail == email && storedPassword == password) {
+            cout << "Login successful.\n";
             if (storedRole == "user") {
-                userOptions(email, filename);
+                User user(email, filename);
+                user.userOptions();
             } else if (storedRole == "trainer") {
                 trainerOptions(filename);
             }
@@ -76,21 +78,25 @@ bool login(const string& filename) {
 // Main function
 int main() {
     const string filename = "users.csv";
-    int choice;
+    int choice = 10000;
 
-    cout << "1. Signup\n2. Login\nChoose an option: ";
-    cin >> choice;
+    while (choice != 0 ) {
+        cout << "1. Signup\n2. Login\n0. Exit\nChoose an option: ";
+        cin >> choice;
 
-    if (choice == 1) {
-        signup(filename);
-    } else if (choice == 2) {
-        if (login(filename)) {
-            cout << "Login successful.\n";
+        if (choice == 1) {
+            signup(filename);
+        } else if (choice == 2) {
+            if (login(filename)) {
+                cout << "";
+            } else {
+                cout << "Login failed. Invalid email or password.\n";
+            }
+        } else if (choice == 0) {
+            cout << "Exiting...\n";
         } else {
-            cout << "Login failed. Invalid email or password.\n";
+            cout << "Invalid option.\n";
         }
-    } else {
-        cout << "Invalid option.\n";
     }
 
     return 0;
