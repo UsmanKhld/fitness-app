@@ -6,7 +6,8 @@
 using namespace std;
 
 // Function declarations for trainer options
-void trainerOptions(const string& filename);
-void viewUsers(const string& filename);
+void trainerOptions(const string &filename);
+void viewUsers(const string &filename);
+void addWorkout();
 
 #endif

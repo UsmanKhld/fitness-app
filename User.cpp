@@ -7,28 +7,41 @@
 
 using namespace std;
 
-User::User(const string& email, const string& filename) : email(email), filename(filename) {}
-
+User::User(const string &email, const string &filename) : email(email), filename(filename) {}
 
 // User options
-void User::userOptions() {
+void User::userOptions()
+{
     int choice;
     cout << "Welcome! What would you like to do?\n";
-    do {
-        cout << "\n1. View workouts\n2. View available trainers\n3. Update your information\n4. View user bio\n0. Quit\n";
+    do
+    {
+        cout << "\n1. View workouts\n2. View available trainers\n3. Update your information\n4. View user bio\n5. Get workout recommendations\n0. Quit\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
-        if (choice == 1) {
+        if (choice == 1)
+        {
             cout << "Workouts: Push-ups, Squats, Lunges, Planks\n";
-        } else if (choice == 2) {
+        }
+        else if (choice == 2)
+        {
             viewTrainers();
-        } else if (choice == 3) {
+        }
+        else if (choice == 3)
+        {
             updateUserInfo();
-        } else if (choice == 4) {
+        }
+        else if (choice == 4)
+        {
             viewUserBio();
-        } 
-        else if (choice != 0) {
+        }
+        else if (choice == 5)
+        {
+            getWorkoutsByMuscleGroup();
+        }
+        else if (choice != 0)
+        {
             cout << "Invalid choice. Please try again.\n";
         }
     } while (choice != 0);
@@ -37,40 +50,47 @@ void User::userOptions() {
 }
 
 // Update user info
-void User::updateUserInfo() {
+void User::updateUserInfo()
+{
     vector<string> lines;
     string line;
-    
+
     // Read all lines from the file
     ifstream inFile(filename);
-    if (inFile.is_open()) {
-        while (getline(inFile, line)) {
+    if (inFile.is_open())
+    {
+        while (getline(inFile, line))
+        {
             lines.push_back(line);
         }
         inFile.close();
-    } else {
+    }
+    else
+    {
         cout << "Unable to open file" << endl;
         return;
     }
 
     // Update the specific line in memory
-    for (size_t i = 0; i < lines.size(); i++) {
+    for (size_t i = 0; i < lines.size(); i++)
+    {
         stringstream ss(lines[i]);
         string storedEmail;
         getline(ss, storedEmail, ',');
-        
-        if (storedEmail == email) {
+
+        if (storedEmail == email)
+        {
             // Get updated information
             string newPassword, role, newName;
             int newAge;
-            
+
             cout << "Enter new password (or press enter to keep current): ";
             cin.ignore();
             getline(cin, newPassword);
-            
+
             cout << "Enter new name (or press enter to keep current): ";
             getline(cin, newName);
-            
+
             cout << "Enter new age (or 0 to keep current): ";
             cin >> newAge;
 
@@ -79,7 +99,7 @@ void User::updateUserInfo() {
             stringstream currentSS(currentLine);
             string currentEmail, currentPassword, currentRole, currentName;
             int currentAge;
-            
+
             getline(currentSS, currentEmail, ',');
             getline(currentSS, currentPassword, ',');
             getline(currentSS, currentRole, ',');
@@ -93,33 +113,39 @@ void User::updateUserInfo() {
 
             // Create updated line
             stringstream updatedLine;
-            updatedLine << email << "," 
-                       << finalPassword << "," 
-                       << currentRole << "," 
-                       << finalName << "," 
-                       << finalAge;
-            
+            updatedLine << email << ","
+                        << finalPassword << ","
+                        << currentRole << ","
+                        << finalName << ","
+                        << finalAge;
+
             lines[i] = updatedLine.str();
             break;
         }
     }
 
     // Write all lines back to the original file
-    ofstream outFile(filename, ios::trunc);  // trunc mode overwrites the file
-    if (outFile.is_open()) {
-        for (const string& updatedLine : lines) {
+    ofstream outFile(filename, ios::trunc); // trunc mode overwrites the file
+    if (outFile.is_open())
+    {
+        for (const string &updatedLine : lines)
+        {
             outFile << updatedLine << endl;
         }
         outFile.close();
         cout << "Information updated successfully!" << endl;
-    } else {
+    }
+    else
+    {
         cout << "Error: Unable to write to file" << endl;
     }
 }
 
-void User::viewTrainers() {
+void User::viewTrainers()
+{
     ifstream file(filename);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         cerr << "Error: Unable to open file.\n";
         return;
     }
@@ -128,7 +154,8 @@ void User::viewTrainers() {
     int age;
 
     cout << "\nList of trainers:\n";
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         stringstream ss(line);
         getline(ss, email, ',');
         getline(ss, password, ',');
@@ -136,7 +163,8 @@ void User::viewTrainers() {
         getline(ss, name, ',');
         ss >> age;
 
-        if (role == "trainer") {
+        if (role == "trainer")
+        {
             cout << "Name: " << name << ", Age: " << age << "\n";
         }
     }
@@ -144,9 +172,11 @@ void User::viewTrainers() {
     file.close();
 }
 
-void User::viewUserBio() {
+void User::viewUserBio()
+{
     ifstream file(filename);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         cerr << "Error: Unable to open file.\n";
         return;
     }
@@ -154,7 +184,8 @@ void User::viewUserBio() {
     string line, storedEmail, password, role, name;
     int age;
 
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         stringstream ss(line);
         getline(ss, storedEmail, ',');
         getline(ss, password, ',');
@@ -162,7 +193,8 @@ void User::viewUserBio() {
         getline(ss, name, ',');
         ss >> age;
 
-        if (storedEmail == email) {
+        if (storedEmail == email)
+        {
             cout << "User Info:\n";
             cout << "Email: " << storedEmail << "\n";
             cout << "Name: " << name << "\n";
@@ -173,5 +205,57 @@ void User::viewUserBio() {
     }
 
     cout << "User not found in the file.\n";
+    file.close();
+}
+
+void User::getWorkoutsByMuscleGroup()
+{
+    string filename = "workouts.csv";
+    ifstream file(filename);
+
+    if (!file.is_open())
+    {
+        cerr << "Error: Unable to open file.\n";
+        return;
+    }
+
+    // List of muscle groups
+    vector<string> muscleGroups = {"Chest", "Biceps", "Triceps", "Shoulders", "Abs", "Quads", "Calves", "Glutes", "Hamstrings"};
+    cout << "\nMuscle Groups:\n";
+    for (size_t i = 0; i < muscleGroups.size(); i++)
+    {
+        cout << i + 1 << ". " << muscleGroups[i] << endl;
+    }
+
+    // User selects a muscle group
+    int choice;
+    cout << "\nEnter the number of the muscle group you'd like workouts for: ";
+    cin >> choice;
+
+    if (choice < 1 || choice > muscleGroups.size())
+    {
+        cout << "Invalid choice.\n";
+        return;
+    }
+
+    string selectedGroup = muscleGroups[choice - 1];
+    cout << "\nWorkouts for " << selectedGroup << ":\n";
+
+    string line, muscleGroup, workout, sets, reps;
+    getline(file, line); // Skip the header row
+    while (getline(file, line))
+    {
+        stringstream ss(line);
+        getline(ss, muscleGroup, ',');
+        getline(ss, workout, ',');
+        getline(ss, sets, ',');
+        getline(ss, reps, ',');
+
+        if (muscleGroup == selectedGroup)
+        {
+            cout << workout << ", " << sets << " sets, " << reps << " reps\n";
+        }
+    }
+
     file.close();
 }
