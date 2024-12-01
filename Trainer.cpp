@@ -2,12 +2,15 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
 #include <vector>
 
 using namespace std;
 
+Trainer::Trainer(const string &filename) : filename(filename) {}
+
 // Trainer options menu
-void trainerOptions(const string &filename)
+void Trainer::trainerOptions()
 {
     int choice;
 
@@ -20,7 +23,7 @@ void trainerOptions(const string &filename)
 
         if (choice == 1)
         {
-            viewUsers(filename);
+            viewUsers();
         }
         else if (choice == 2)
         {
@@ -36,7 +39,7 @@ void trainerOptions(const string &filename)
 }
 
 // Function to view all users
-void viewUsers(const string &filename)
+void Trainer::viewUsers()
 {
     ifstream file(filename);
     if (!file.is_open())
@@ -67,7 +70,8 @@ void viewUsers(const string &filename)
     file.close();
 }
 
-void addWorkout()
+// Function to add a workout to workouts.csv
+void Trainer::addWorkout()
 {
     vector<string> muscleGroups = {"Chest", "Biceps", "Triceps", "Shoulders", "Abs", "Quads", "Calves", "Glutes", "Hamstrings"};
 

@@ -4,12 +4,13 @@
 #include <string>
 #include "User.h"
 #include "Trainer.h"
-
+#include "Admin.h"
 
 using namespace std;
 
 // Function to handle user signup
-void signup(const string& filename) {
+void signup(const string &filename)
+{
     string email, password, role, name;
     int age;
 
@@ -26,17 +27,21 @@ void signup(const string& filename) {
     cin >> age;
 
     ofstream file(filename, ios::app);
-    if (file.is_open()) {
+    if (file.is_open())
+    {
         file << email << "," << password << "," << role << "," << name << "," << age << "\n";
         file.close();
         cout << "Signup successful!\n";
-    } else {
+    }
+    else
+    {
         cout << "Error: Unable to open file for writing.\n";
     }
 }
 
 // Function to handle login
-bool login(const string& filename) {
+bool login(const string &filename)
+{
     string email, password, line, storedEmail, storedPassword, storedRole, storedName;
     int storedAge;
 
@@ -46,12 +51,14 @@ bool login(const string& filename) {
     cin >> password;
 
     ifstream file(filename);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         cerr << "Error: Unable to open file.\n";
         return false;
     }
 
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         stringstream ss(line);
         getline(ss, storedEmail, ',');
         getline(ss, storedPassword, ',');
@@ -59,42 +66,63 @@ bool login(const string& filename) {
         getline(ss, storedName, ',');
         ss >> storedAge;
 
-        if (storedEmail == email && storedPassword == password) {
+        if (storedEmail == email && storedPassword == password)
+        {
             cout << "Login successful.\n";
-            if (storedRole == "user") {
+            if (storedRole == "user")
+            {
                 User user(email, filename);
                 user.userOptions();
-            } else if (storedRole == "trainer") {
-                trainerOptions(filename);
+            }
+            else if (storedRole == "trainer")
+            {
+                Trainer trainer(filename);
+                trainer.trainerOptions();
+            }
+            else if (storedRole == "admin")
+            {
+                Admin admin(filename);
+                admin.adminOptions();
             }
             return true;
         }
-
     }
 
     return false;
 }
 
 // Main function
-int main() {
+int main()
+{
     const string filename = "users.csv";
     int choice = 10000;
 
-    while (choice != 0 ) {
+    while (choice != 0)
+    {
         cout << "1. Signup\n2. Login\n0. Exit\nChoose an option: ";
         cin >> choice;
 
-        if (choice == 1) {
+        if (choice == 1)
+        {
             signup(filename);
-        } else if (choice == 2) {
-            if (login(filename)) {
+        }
+        else if (choice == 2)
+        {
+            if (login(filename))
+            {
                 cout << "";
-            } else {
+            }
+            else
+            {
                 cout << "Login failed. Invalid email or password.\n";
             }
-        } else if (choice == 0) {
+        }
+        else if (choice == 0)
+        {
             cout << "Exiting...\n";
-        } else {
+        }
+        else
+        {
             cout << "Invalid option.\n";
         }
     }

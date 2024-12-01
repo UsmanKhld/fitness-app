@@ -5,9 +5,16 @@
 
 using namespace std;
 
-// Function declarations for trainer options
-void trainerOptions(const string &filename);
-void viewUsers(const string &filename);
-void addWorkout();
+class Trainer
+{
+private:
+    string filename;
+
+public:
+    Trainer(const string &filename);
+    void trainerOptions();
+    void viewUsers();
+    void addWorkout();
+};
 
 #endif

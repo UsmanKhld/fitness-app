@@ -16,13 +16,13 @@ void User::userOptions()
     cout << "Welcome! What would you like to do?\n";
     do
     {
-        cout << "\n1. View workouts\n2. View available trainers\n3. Update your information\n4. View user bio\n5. Get workout recommendations\n0. Quit\n";
+        cout << "\n1. Get workout recommendations\n2. View available trainers\n3. Update your information\n4. View user bio\n0. Quit\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
         if (choice == 1)
         {
-            cout << "Workouts: Push-ups, Squats, Lunges, Planks\n";
+            getWorkoutsByMuscleGroup();
         }
         else if (choice == 2)
         {
@@ -35,10 +35,6 @@ void User::userOptions()
         else if (choice == 4)
         {
             viewUserBio();
-        }
-        else if (choice == 5)
-        {
-            getWorkoutsByMuscleGroup();
         }
         else if (choice != 0)
         {
@@ -141,6 +137,7 @@ void User::updateUserInfo()
     }
 }
 
+// Funciton to view all trainers
 void User::viewTrainers()
 {
     ifstream file(filename);
@@ -172,6 +169,7 @@ void User::viewTrainers()
     file.close();
 }
 
+// Function to view user information
 void User::viewUserBio()
 {
     ifstream file(filename);
@@ -208,6 +206,7 @@ void User::viewUserBio()
     file.close();
 }
 
+// Function to see workouts by muscle group
 void User::getWorkoutsByMuscleGroup()
 {
     string filename = "workouts.csv";

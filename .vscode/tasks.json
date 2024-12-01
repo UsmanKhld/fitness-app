@@ -10,6 +10,7 @@
 				"main.cpp",
 				"User.cpp",
 				"Trainer.cpp",
+				"Admin.cpp",
 				"/nologo",
 				"/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
 				"${file}"
